@@ -2,8 +2,8 @@
 require File.expand_path('../lib/omniauth-github-team-member/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ['Jonathan Hoyt']
-  gem.email         = ['jonmagic@gmail.com']
+  gem.authors       = ['Garrett Bjerkhoel', 'Jonathan Hoyt']
+  gem.email         = ['me@garrettbjerkhoel.com', 'jonmagic@gmail.com']
   gem.description   = %q{OmniAuth strategy for GitHub Team Auth.}
   gem.summary       = %q{OmniAuth strategy for GitHub Team Auth.}
   gem.homepage      = 'https://github.com/jonmagic/omniauth-github-team-member'
