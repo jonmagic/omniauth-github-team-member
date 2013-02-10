@@ -1,8 +1,8 @@
-# OmniAuth GitHubber Auth
+# OmniAuth GitHub Team Auth
 
-This is the official OmniAuth strategy for authenticating to GitHub. To
-use it, you'll need to sign up for an OAuth2 Application ID and Secret
-on the [GitHub Applications Page](https://github.com/settings/applications).
+This is an OmniAuth strategy for authenticating to GitHub and ensuring the user belongs to a specific team. This strategy is useful for building web apps that should only be administered by specific teams. I adapted this from an internal gem at GitHub.
+
+To use it, you'll need to sign up for an OAuth2 Application ID and Secret on the [GitHub Applications Page](https://github.com/settings/applications).
 
 ## Installing
 
@@ -20,7 +20,7 @@ Usage in Rails:
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :github_team_member, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
+  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
 end
 ```
 
@@ -72,7 +72,7 @@ Usage in Sinatra:
 
 ```ruby
 use OmniAuth::Builder do
-  provider :github_team_member, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET']
+  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET']
 end
 ```
 
@@ -83,7 +83,7 @@ the authenticated user.
 
 ```ruby
 use OmniAuth::Builder do
-  provider :github_team_member, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
+  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
 end
 ```
 

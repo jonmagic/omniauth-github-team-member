@@ -10,6 +10,8 @@ module OmniAuth
       def github_team_member?(id)
         team_members = access_token.get("/teams/#{id}/members").parsed
         !!team_members.detect { |member| member['login'] == raw_info['login'] }
+      rescue ::OAuth2::Error
+        false
       end
 
       def team_id
@@ -19,4 +21,4 @@ module OmniAuth
   end
 end
 
-OmniAuth.config.add_camelization 'github_team_member', 'GitHubTeamMember'
+OmniAuth.config.add_camelization "githubteammember", "GitHubTeamMember"
