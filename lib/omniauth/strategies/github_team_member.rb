@@ -8,8 +8,8 @@ module OmniAuth
       end
 
       def github_team_member?(id)
-        team_members = access_token.get("/teams/#{id}/members").parsed
-        !!team_members.detect { |member| member['login'] == raw_info['login'] }
+        response = access_token.get("/teams/#{id}/members/#{raw_info['login']}")
+        response.status == 204
       rescue ::OAuth2::Error
         false
       end
