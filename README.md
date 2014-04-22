@@ -12,7 +12,7 @@ Add the gem to your Gemfile and bundle.
 gem "omniauth-github-team-member"
 ```
 
-Add the **GITHUB_TEAM_ID** variable to your environment, in addition to GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET. For local development I recommend the [dotenv](https://github.com/bkeepers/dotenv) gem.
+I like to store the GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in my environment, but you don't have to if you have a preferred place to put keys and secrets. For local development I recommend the [dotenv](https://github.com/bkeepers/dotenv) gem for setting environment variables.
 
 ## Basic Usage
 
@@ -20,12 +20,18 @@ Usage in Rails:
 
 ```ruby
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
+  provider :githubteammember,
+    ENV['GITHUB_CLIENT_ID'],
+    ENV['GITHUB_CLIENT_SECRET'],
+    :scope => 'user',
+    :teams => {
+      "mentors_team_member?" => 426344
+    }
 end
 ```
 
-During the callback phase, you can check to see if the authed user is an employee or not
-by checking the returned credentials object `request.env['omniauth.auth'].credentials.team_member?`.
+During the callback phase, you can check to see if the authed user is on the mentors team or not
+by checking the returned credentials object `request.env['omniauth.auth'].credentials.mentors_team_member?`.
 
 An example of how to integrate this strategy with OmniAuth is below. Do note that these
 examples are just guidelines, you will most likely need to change each example to match your application's needs.
@@ -50,7 +56,7 @@ class User < ActiveRecord::Base
     # Prevents past team members from logging into existing accounts they
     # created when they were previously a team member. Also ensures
     # new accounts can't be created unless they are a team member.
-    return false unless access_token.credentials.team_member?
+    return false unless access_token.credentials.mentors_team_member?
 
     info = access_token.info
     github_id = access_token.uid
@@ -72,7 +78,13 @@ Usage in Sinatra:
 
 ```ruby
 use OmniAuth::Builder do
-  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET']
+  provider :githubteammember,
+    ENV['GITHUB_CLIENT_ID'],
+    ENV['GITHUB_CLIENT_SECRET'],
+    :scope => 'user',
+    :teams => {
+      "mentors_team_member?" => 426344
+    }
 end
 ```
 
@@ -80,12 +92,6 @@ end
 
 You must require the user scope to be able to access the team data associated with
 the authenticated user.
-
-```ruby
-use OmniAuth::Builder do
-  provider :githubteammember, ENV['GITHUB_CLIENT_ID'], ENV['GITHUB_CLIENT_SECRET'], :scope => 'user'
-end
-```
 
 More info on [Scopes](http://developer.github.com/v3/oauth/#scopes).
 
