@@ -4,18 +4,23 @@ module OmniAuth
   module Strategies
     class GitHubTeamMember < OmniAuth::Strategies::GitHub
       credentials do
-        { 'team_member?' => github_team_member?(team_id) }
+        options['teams'].inject({}) do |base, key_value_pair|
+          method_name, team_id = key_value_pair
+          base[booleanize_method_name(method_name)] = team_member?(team_id)
+          base
+        end
       end
 
-      def github_team_member?(id)
-        response = access_token.get("/teams/#{id}/members/#{raw_info['login']}")
+      def team_member?(team_id)
+        response = access_token.get("/teams/#{team_id}/members/#{raw_info['login']}")
         response.status == 204
       rescue ::OAuth2::Error
         false
       end
 
-      def team_id
-        ENV["GITHUB_TEAM_ID"]
+      def booleanize_method_name(method_name)
+        return method_name if method_name =~ /\?$/
+        return "#{method_name}?"
       end
     end
   end
