@@ -13,7 +13,7 @@ module OmniAuth
 
       def team_member?(team_id)
         response = access_token.get("/teams/#{team_id}/memberships/#{raw_info['login']}")
-        response.status == 200 && response.state == "active"
+        response.status == 200 && response.parsed["state"] == "active"
       rescue ::OAuth2::Error
         false
       end
