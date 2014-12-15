@@ -16,25 +16,27 @@ I like to store the GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET in my environment,
 
 ## Basic Usage
 
+In the examples below, `42634` is the id of the team we are checking against. You can find the id of a team via the GitHub API, either by [listing all teams for the parent org](https://developer.github.com/v3/orgs/teams/#list-teams) or [finding all of the team memberships for a user who is on the team you are looking for](https://developer.github.com/v3/orgs/teams/#get-team-membership).
+
 Usage in Rails:
 
 ```ruby
+# config/initializers/github_omniauth.rb
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :githubteammember,
     ENV['GITHUB_CLIENT_ID'],
     ENV['GITHUB_CLIENT_SECRET'],
-    :scope => 'user',
-    :teams => {
+    scope: 'read:org',
+    teams: {
       "mentors_team_member?" => 426344
     }
 end
 ```
 
-During the callback phase, you can check to see if the authed user is on the mentors team or not
-by checking the returned credentials object `request.env['omniauth.auth'].credentials.mentors_team_member?`.
+During the callback phase, you can check to see if the authed user is on the mentors team or not by checking the returned credentials object `request.env['omniauth.auth'].credentials.mentors_team_member?`.
 
-An example of how to integrate this strategy with OmniAuth is below. Do note that these
-examples are just guidelines, you will most likely need to change each example to match your application's needs.
+An example of how to integrate this strategy with OmniAuth is below. Do note that these examples are just guidelines, you will most likely need to change each example to match your application's needs.
 
 ```ruby
 class SessionsController
@@ -81,8 +83,8 @@ use OmniAuth::Builder do
   provider :githubteammember,
     ENV['GITHUB_CLIENT_ID'],
     ENV['GITHUB_CLIENT_SECRET'],
-    :scope => 'user',
-    :teams => {
+    scope: 'read:org',
+    teams: {
       "mentors_team_member?" => 426344
     }
 end
@@ -90,8 +92,7 @@ end
 
 ### Scopes
 
-You must require the user scope to be able to access the team data associated with
-the authenticated user.
+You must require the `read:org` scope to be able to access the team data associated with the authenticated user.
 
 More info on [Scopes](http://developer.github.com/v3/oauth/#scopes).
 
