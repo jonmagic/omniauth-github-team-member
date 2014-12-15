@@ -109,3 +109,4 @@ More info on [Scopes](http://developer.github.com/v3/oauth/#scopes).
 * [Garrett Bjerkhoel](https://github.com/dewski)
 * [Jonathan Hoyt](https://github.com/jonmagic)
 * [Arthur Chiu](https://github.com/achiu)
+* [Tim Clem](https://github.com/tclem)
