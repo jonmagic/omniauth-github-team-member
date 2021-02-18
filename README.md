@@ -111,3 +111,4 @@ More info on [Scopes](http://developer.github.com/v3/oauth/#scopes).
 * [Arthur Chiu](https://github.com/achiu)
 * [Tim Clem](https://github.com/tclem)
 * [Jessie Young](https://github.com/jessieay)
+* [Paul Schreiber](https://github.com/paulschreiber)
