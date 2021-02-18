@@ -7,8 +7,16 @@ module OmniAuth
         options['teams'].inject({}) do |base, key_value_pair|
           method_name, team_id = key_value_pair
           base[booleanize_method_name(method_name)] = team_member?(team_id)
+          base["email"] = email_addresses
           base
         end
+      end
+
+      def email_addresses
+        response = access_token.get("/user/emails")
+        response.status == 200 && response.parsed.map{|user| user["email"]}
+      rescue ::OAuth2::Error
+        false
       end
 
       def team_member?(team_id)
